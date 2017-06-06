@@ -64,6 +64,16 @@ class Event extends \yii\db\ActiveRecord
      */
     public function getRoom()
     {
+        var_dump($this);
         return $this->hasOne(Room::className(), ['id' => 'room_id']);
+    }
+    public function getRooms()
+    {
+        $rooms = room::find()->all();
+        $dropRooms = array();
+        foreach($rooms as $r) {
+            $dropRooms[$r->id] = $r->name;
+        }
+        return $dropRooms;
     }
 }

@@ -29,9 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'description',
             'room_id',
             'type',
-            // 'time_start:datetime',
-            // 'time_end:datetime',
-            // 'date',
+            'time_start:datetime',
+            'time_end:datetime',
+            'date',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

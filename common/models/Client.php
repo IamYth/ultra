@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use yii\behaviors\TimestampBehavior;
 
 use Yii;
 
@@ -28,6 +29,12 @@ class Client extends \yii\db\ActiveRecord
         return 'client';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
     /**
      * @inheritdoc
      */

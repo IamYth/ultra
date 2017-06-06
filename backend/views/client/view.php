@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use common\models\Journal;
+use common\models\User;
 /* @var $this yii\web\View */
 /* @var $model common\models\Client */
 
@@ -33,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'phone',
             'password_hash',
             'nickname',
-            'created_at',
-            'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

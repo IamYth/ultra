@@ -15,6 +15,8 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'js/combodate.js',
+        'js/moment.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -11,6 +11,8 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use common\models\Journal;
+use common\models\User;
 /**
  * ClientController implements the CRUD actions for Client model.
  */
@@ -37,15 +39,6 @@ class ClientController extends Controller
                         'roles' => ['admin','manager'],
                     ],
                 ],
-            ],
-            [
-                'class' => TimestampBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-                // если вместо метки времени UNIX используется datetime:
-                // 'value' => new Expression('NOW()'),
             ],
         ];
     }
@@ -87,6 +80,18 @@ class ClientController extends Controller
         $model = new Client();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $journal = new Journal();
+            $journal->client_id = $model->id;
+            $journal->update_time = $model->updated_at;
+            if (!(empty($_SESSION['__id']))) {
+                $journal->updated_by = $_SESSION['__id'];
+                $user = User::findOne($journal->updated_by);
+                $journal->updated_by_type = $user->role;
+            }else{
+                $journal->updated_by_type = 'self';
+                $journal->updated_by = '';
+            }
+            $journal->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -106,6 +111,18 @@ class ClientController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $journal = new Journal();
+            $journal->client_id = $model->id;
+            $journal->update_time = $model->updated_at;
+            if (!(empty($_SESSION['__id']))) {
+                $journal->updated_by = $_SESSION['__id'];
+                $user = User::findOne($journal->updated_by);
+                $journal->updated_by_type = $user->role;
+            }else{
+                $journal->updated_by_type = 'self';
+                $journal->updated_by = '';
+            }
+            $journal->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
